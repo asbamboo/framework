@@ -2,6 +2,7 @@
 namespace asbamboo\framework\kernel;
 
 use PHPUnit\Framework\TestCase;
+use asbamboo\framework\_test\fixtures\HttpKernel;
 
 /**
  * 
@@ -12,6 +13,10 @@ class HttpKernelTest extends TestCase
 {
     public function testRun()
     {
+        $_SERVER['REQUEST_URI'] = '/';
         
+        $kernel = new HttpKernel();
+        $kernel->run();
+        exit;
     }
 }

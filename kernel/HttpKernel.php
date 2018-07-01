@@ -10,6 +10,9 @@ use asbamboo\di\ServiceMapping;
 use asbamboo\di\ServiceMappingInterface;
 use asbamboo\router\Router;
 use asbamboo\http\Request;
+use asbamboo\di\ServiceMappingCollectionInterface;
+use asbamboo\router\RouteCollection;
+use DeepCopy\Reflection\ReflectionHelper;
 
 /**
  * 
@@ -29,6 +32,7 @@ abstract class HttpKernel implements KernelInterface
     {
         $this->initAutoload();
         $this->initContainer();
+        return $this;
     }
     
     /**
@@ -49,7 +53,33 @@ abstract class HttpKernel implements KernelInterface
         $request    = $this->container->get('kernel.request');
         $router     = $this->container->get('kernel.router');
 
-       $router->getRoute($request);
+        $route          = $router->getRoute($request);
+        $callback       = $route->getCallback();
+        $default_params = $route->getDefaultParams();
+        if(is_array($callback)){
+            $r  = new \ReflectionMethod(implode('::', [get_class($callback[0]), $callback[1]]));
+        }else{
+            $r  = new \ReflectionFunction($callback);
+        }
+        $call_params    = $r->getParameters();
+//         $call_params
+        
+//         if($callback)
+        
+        echo call_user_func_array($callback, [1,2]);
+        var_dump($callback);
+        exit;
+//         $r = new \ReflectionMethod($class_method);
+//         exit;
+        $r = new \ReflectionFunction($callback);
+//         $r
+        echo call_user_func_array($callback, [1,2]);
+        var_dump($r);
+        exit;
+        var_dump($callback);
+        var_dump($request);
+        exit;
+        
     }
     
     /**
@@ -76,21 +106,26 @@ abstract class HttpKernel implements KernelInterface
     
     /**
      *  注册配置信息
-     *  
-     * @return ServiceMappingInterface
+     * 
+     * @return ServiceMappingCollectionInterface
      */
-    private function registerConfigs() : ServiceMappingInterface
+    private function registerConfigs() : ServiceMappingCollectionInterface
     {
         $ServiceMappings        = new ServiceMappingCollection();
         $default_configs        = [
             'kernel.request'    => ['class' => ServerRequest::class],
-            'kernel.router'     => ['class' => Router::class],
+            'kernel.router'     => ['class' => Router::class, 'init_params' => ['RouteCollection' => new RouteCollection()]],
         ];        
-        $custom_configs         = $this->getConfigPath();
-        $configs                = array_merge_recursive($default_configs, $custom_configs);
-        foreach($configs AS $config){
+        $custom_configs         = include $this->getConfigPath();
+        $configs                = array_merge($default_configs, $custom_configs);
+        
+        foreach($configs AS $key => $config){
+            if(ctype_digit((string) $key) == false && !isset($config['id'])){
+                $config['id']   = $key;
+            }
             $ServiceMappings->add(new ServiceMapping($config));
         }
+        return $ServiceMappings;
     }
     
     /**
