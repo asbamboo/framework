@@ -18,6 +18,6 @@ class HttpKernel extends BaseHttpKernel
      */
     public function getConfigPath() : string
     {
-        return __DIR__ . '/config.php' ;
+        return __DIR__ . '/config/config.php' ;
     }
 }

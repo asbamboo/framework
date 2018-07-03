@@ -7,13 +7,9 @@ use asbamboo\di\ContainerInterface;
 use asbamboo\http\ServerRequest;
 use asbamboo\di\ServiceMappingCollection;
 use asbamboo\di\ServiceMapping;
-use asbamboo\di\ServiceMappingInterface;
 use asbamboo\router\Router;
-use asbamboo\http\Request;
 use asbamboo\di\ServiceMappingCollectionInterface;
 use asbamboo\router\RouteCollection;
-use DeepCopy\Reflection\ReflectionHelper;
-use asbamboo\http\Response;
 
 /**
  *
@@ -43,8 +39,10 @@ abstract class HttpKernel implements KernelInterface
      */
     public function run() : KernelInterface
     {
+        /**
+         * 启用引导
+         */
         $this->boot();
-
 
         /**
          *
