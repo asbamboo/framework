@@ -13,18 +13,19 @@ use asbamboo\http\Request;
 use asbamboo\di\ServiceMappingCollectionInterface;
 use asbamboo\router\RouteCollection;
 use DeepCopy\Reflection\ReflectionHelper;
+use asbamboo\http\Response;
 
 /**
- * 
+ *
  * @author 李春寅 <licy2013@aliyun.com>
  * @since 2018年6月23日
  */
 abstract class HttpKernel implements KernelInterface
 {
     protected $container;
-    
+
     /**
-     * 
+     *
      * {@inheritDoc}
      * @see \asbamboo\framework\kernel\KernelInterface::boot()
      */
@@ -34,57 +35,35 @@ abstract class HttpKernel implements KernelInterface
         $this->initContainer();
         return $this;
     }
-    
+
     /**
-     * 
+     *
      * {@inheritDoc}
      * @see \asbamboo\framework\kernel\KernelInterface::run()
      */
     public function run() : KernelInterface
     {
         $this->boot();
-        
-        
+
+
         /**
          *
-         * @var Router $router
-         * @var ServerRequest $request
+         * @var Router $Router
+         * @var ServerRequest $Request
+         * @var Response $Response
          */
-        $request    = $this->container->get('kernel.request');
-        $router     = $this->container->get('kernel.router');
+        $Request    = $this->container->get('kernel.request');
+        $Router     = $this->container->get('kernel.router');
+        $Response   = $Router->matchRequest($Request);
 
-        $route          = $router->getRoute($request);
-        $callback       = $route->getCallback();
-        $default_params = $route->getDefaultParams();
-        if(is_array($callback)){
-            $r  = new \ReflectionMethod(implode('::', [get_class($callback[0]), $callback[1]]));
-        }else{
-            $r  = new \ReflectionFunction($callback);
-        }
-        $call_params    = $r->getParameters();
-//         $call_params
-        
-//         if($callback)
-        
-        echo call_user_func_array($callback, [1,2]);
-        var_dump($callback);
-        exit;
-//         $r = new \ReflectionMethod($class_method);
-//         exit;
-        $r = new \ReflectionFunction($callback);
-//         $r
-        echo call_user_func_array($callback, [1,2]);
-        var_dump($r);
-        exit;
-        var_dump($callback);
-        var_dump($request);
-        exit;
-        
+        echo $Response->getBody();
+
+        return $this;
     }
-    
+
     /**
      * 初始化自动加载
-     * 
+     *
      * @return \asbamboo\autoload\Autoload
      */
     private function initAutoload() : Autoload
@@ -94,7 +73,7 @@ abstract class HttpKernel implements KernelInterface
 
     /**
      * 初始化服务容器
-     * 
+     *
      * @return ContainerInterface
      */
     private function initContainer() : ContainerInterface
@@ -103,10 +82,10 @@ abstract class HttpKernel implements KernelInterface
         $this->container    = new Container($ServiceMappings);
         return $this->container;
     }
-    
+
     /**
      *  注册配置信息
-     * 
+     *
      * @return ServiceMappingCollectionInterface
      */
     private function registerConfigs() : ServiceMappingCollectionInterface
@@ -115,10 +94,10 @@ abstract class HttpKernel implements KernelInterface
         $default_configs        = [
             'kernel.request'    => ['class' => ServerRequest::class],
             'kernel.router'     => ['class' => Router::class, 'init_params' => ['RouteCollection' => new RouteCollection()]],
-        ];        
+        ];
         $custom_configs         = include $this->getConfigPath();
         $configs                = array_merge($default_configs, $custom_configs);
-        
+
         foreach($configs AS $key => $config){
             if(ctype_digit((string) $key) == false && !isset($config['id'])){
                 $config['id']   = $key;
@@ -127,10 +106,10 @@ abstract class HttpKernel implements KernelInterface
         }
         return $ServiceMappings;
     }
-    
+
     /**
      * 配置文件路径
-     * 
+     *
      * @return string
      */
     abstract function getConfigPath(): string;
