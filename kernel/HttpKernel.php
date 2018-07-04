@@ -10,6 +10,7 @@ use asbamboo\di\ServiceMapping;
 use asbamboo\router\Router;
 use asbamboo\di\ServiceMappingCollectionInterface;
 use asbamboo\router\RouteCollection;
+use asbamboo\template\Template;
 
 /**
  *
@@ -92,6 +93,7 @@ abstract class HttpKernel implements KernelInterface
         $default_configs        = [
             'kernel.request'    => ['class' => ServerRequest::class],
             'kernel.router'     => ['class' => Router::class, 'init_params' => ['RouteCollection' => new RouteCollection()]],
+            'kernel.template'   => ['class' => Template::class],
         ];
         $custom_configs         = include $this->getConfigPath();
         $configs                = array_merge($default_configs, $custom_configs);
