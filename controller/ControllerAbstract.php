@@ -5,6 +5,8 @@ use asbamboo\di\ContainerAwareTrait;
 use asbamboo\template\Template;
 use asbamboo\http\Response;
 use asbamboo\http\Stream;
+use asbamboo\framework\Constant;
+use asbamboo\router\RouteCollection;
 
 /**
  * 控制器抽象类
@@ -33,12 +35,18 @@ abstract class ControllerAbstract implements ControllerInterface
     {
         /**
          * default path
+         *
+         * @var RouteCollection $RouteCollection
          */
         if($path === null){
-            var_dump(debug_backtrace());
-            var_dump(__NAMESPACE__);
-            var_dump(__METHOD__);
+            $RouteCollection    = $this->Container->get(Constant::KERNEL_ROUTE_COLLECTION);
+            $Route              = $RouteCollection->getMatchedRoute();
+            $callback           = $Route->getCallback();
+            $namespace          = __NAMESPACE__;
+            var_dump($namespace);
+            var_dump(get_class($callback[0]));
             exit;
+            get_class($callback[1]);
         }
 
         /**
