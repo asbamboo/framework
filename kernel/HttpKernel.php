@@ -11,6 +11,8 @@ use asbamboo\router\Router;
 use asbamboo\di\ServiceMappingCollectionInterface;
 use asbamboo\router\RouteCollection;
 use asbamboo\template\Template;
+use asbamboo\framework\Constant;
+use asbamboo\framework\config\RouterConfig;
 
 /**
  *
@@ -19,6 +21,10 @@ use asbamboo\template\Template;
  */
 abstract class HttpKernel implements KernelInterface
 {
+    /**
+     * 容器
+     * @var ContainerInterface
+     */
     protected $container;
 
     /**
@@ -79,6 +85,9 @@ abstract class HttpKernel implements KernelInterface
     {
         $ServiceMappings    = $this->registerConfigs();
         $this->container    = new Container($ServiceMappings);
+
+        $this->container->get(Constant::KERNEL_ROUTER_CONFIG)->configure();
+
         return $this->container;
     }
 
@@ -89,14 +98,16 @@ abstract class HttpKernel implements KernelInterface
      */
     private function registerConfigs() : ServiceMappingCollectionInterface
     {
-        $ServiceMappings        = new ServiceMappingCollection();
-        $default_configs        = [
-            'kernel.request'    => ['class' => ServerRequest::class],
-            'kernel.router'     => ['class' => Router::class, 'init_params' => ['RouteCollection' => new RouteCollection()]],
-            'kernel.template'   => ['class' => Template::class],
+        $ServiceMappings                        = new ServiceMappingCollection();
+        $default_configs                        = [
+            Constant::KERNEL_REQUEST            => ['class' => ServerRequest::class],
+            Constant::KERNEL_ROUTER_CONFIG      => ['class' => RouterConfig::class],
+            Constant::KERNEL_ROUTE_COLLECTION   => ['class' => RouteCollection::class],
+            Constant::KERNEL_ROUTER             => ['class' => Router::class, 'init_params' => ['RouteCollection' => '@' . Constant::KERNEL_ROUTE_COLLECTION]],
+            Constant::KERNEL_TEMPLATE           => ['class' => Template::class],
         ];
-        $custom_configs         = include $this->getConfigPath();
-        $configs                = array_merge($default_configs, $custom_configs);
+        $custom_configs                     = include $this->getConfigPath();
+        $configs                            = array_merge($default_configs, $custom_configs);
 
         foreach($configs AS $key => $config){
             if(ctype_digit((string) $key) == false && !isset($config['id'])){
