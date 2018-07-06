@@ -12,6 +12,7 @@ final class Constant
     /*
      * 服务容器[HttpKernel::$Container]的内置服务id
      */
+    const KERNEL                    = 'kernel';
     const KERNEL_REQUEST            = 'kernel.request';
     const KERNEL_ROUTER             = 'kernel.router';
     const KERNEL_ROUTER_CONFIG      = 'kernel.router.config';

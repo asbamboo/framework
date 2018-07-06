@@ -7,6 +7,7 @@ use asbamboo\http\Response;
 use asbamboo\http\Stream;
 use asbamboo\framework\Constant;
 use asbamboo\router\RouteCollection;
+use asbamboo\framework\controller\exception\NotFindTemplateException;
 
 /**
  * 控制器抽象类
@@ -34,19 +35,29 @@ abstract class ControllerAbstract implements ControllerInterface
     protected function view(array $data, string $path = null)
     {
         /**
-         * default path
+         * 默认路径
+         *  - 等于项目根目录 + /view/ + （controller命名空间下命名路径，单词之间改用‘-’连接）+ 后缀名 'html.tpl'
          *
          * @var RouteCollection $RouteCollection
          */
         if($path === null){
             $RouteCollection    = $this->Container->get(Constant::KERNEL_ROUTE_COLLECTION);
             $Route              = $RouteCollection->getMatchedRoute();
+            $project_dir        = rtrim($this->Container->get(Constant::KERNEL)->getProjectDir(), DIRECTORY_SEPARATOR);
+            $view_dir           = $project_dir . DIRECTORY_SEPARATOR .  'view';
             $callback           = $Route->getCallback();
-            $namespace          = __NAMESPACE__;
-            var_dump($namespace);
-            var_dump(get_class($callback[0]));
-            exit;
-            get_class($callback[1]);
+            $view_path_data     = preg_replace('@.*controller@u', '', get_class($callback[0]));
+            $view_path_data     = explode('\\', $view_path_data);
+            foreach($view_path_data AS $key => $item){
+                $view_path_data[$key]   = strtolower(trim(preg_replace('@([A-Z])@', '-$1',$item),'-'));
+            }
+            $view_path          = implode(DIRECTORY_SEPARATOR, $view_path_data);
+            $path               = $view_path . DIRECTORY_SEPARATOR . strtolower(trim(preg_replace('@([A-Z])@', '-$1',$callback[1]),'-')) . '.html.tpl';
+            $view_path          = $view_dir . $path;
+            
+            if(!is_readable($view_path)){
+                throw new NotFindTemplateException('找不到或无法读取对应的模板文件。');
+            }
         }
 
         /**
@@ -57,7 +68,7 @@ abstract class ControllerAbstract implements ControllerInterface
         $content    = $Template->render($path, $data);
         $Stream     = new Stream('php://temp', 'w+b');
         $Stream->write($content);
-        return Response($Stream);
+        return new Response($Stream);
     }
 
     protected function response()

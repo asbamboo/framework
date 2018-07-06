@@ -14,6 +14,16 @@ class HttpKernel extends BaseHttpKernel
     /**
      * 
      * {@inheritDoc}
+     * @see \asbamboo\framework\kernel\HttpKernel::getProjectDir()
+     */
+    public function getProjectDir(): string
+    {
+        return __DIR__;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
      * @see \asbamboo\framework\kernel\HttpKernel::getConfigPath()
      */
     public function getConfigPath() : string

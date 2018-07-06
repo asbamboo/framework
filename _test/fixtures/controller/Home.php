@@ -1,8 +1,8 @@
 <?php
 namespace asbamboo\framework\_test\fixtures\controller;
 
-use asbamboo\http\Stream;
-use asbamboo\http\Response;
+// use asbamboo\http\Stream;
+// use asbamboo\http\Response;
 use asbamboo\framework\controller\ControllerAbstract;
 
 class Home extends ControllerAbstract

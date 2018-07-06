@@ -87,6 +87,7 @@ abstract class HttpKernel implements KernelInterface
         $this->container    = new Container($ServiceMappings);
 
         $this->container->get(Constant::KERNEL_ROUTER_CONFIG)->configure();
+        $this->container->set(Constant::KERNEL, $this);
 
         return $this->container;
     }
@@ -124,4 +125,11 @@ abstract class HttpKernel implements KernelInterface
      * @return string
      */
     abstract function getConfigPath(): string;
+    
+    /**
+     * 获取项目的根目录
+     * 
+     * @return string
+     */
+    abstract function getProjectDir(): string;
 }
