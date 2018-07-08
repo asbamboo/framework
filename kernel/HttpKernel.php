@@ -13,6 +13,9 @@ use asbamboo\router\RouteCollection;
 use asbamboo\template\Template;
 use asbamboo\framework\Constant;
 use asbamboo\framework\config\RouterConfig;
+use asbamboo\database\Factory;
+use asbamboo\framework\config\DbConfig;
+use asbamboo\database\Connection;
 
 /**
  *
@@ -87,6 +90,7 @@ abstract class HttpKernel implements KernelInterface
         $this->container    = new Container($ServiceMappings);
 
         $this->container->get(Constant::KERNEL_ROUTER_CONFIG)->configure();
+        $this->container->get(Constant::KERNEL_DB_CONFIG)->configure();
         $this->container->set(Constant::KERNEL, $this);
 
         return $this->container;
@@ -101,6 +105,8 @@ abstract class HttpKernel implements KernelInterface
     {
         $ServiceMappings                        = new ServiceMappingCollection();
         $default_configs                        = [
+            Constant::KERNEL_DB                 => ['class' => Factory::class],
+            Constant::KERNEL_DB_CONFIG          => ['class' => DbConfig::class],
             Constant::KERNEL_REQUEST            => ['class' => ServerRequest::class],
             Constant::KERNEL_ROUTER_CONFIG      => ['class' => RouterConfig::class],
             Constant::KERNEL_ROUTE_COLLECTION   => ['class' => RouteCollection::class],

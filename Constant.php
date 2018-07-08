@@ -18,4 +18,6 @@ final class Constant
     const KERNEL_ROUTER_CONFIG      = 'kernel.router.config';
     const KERNEL_ROUTE_COLLECTION   = 'kernel.route.collection';
     const KERNEL_TEMPLATE           = 'kernel.template';
+    const KERNEL_DB                 = 'kernel.db.factory';
+    const KERNEL_DB_CONFIG          = 'kernel.db.config';
 }

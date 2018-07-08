@@ -20,7 +20,7 @@ class RouterConfig
      *
      * @var array
      */
-    private $configs;
+    private $configs    = [];
 
     /**
      *
