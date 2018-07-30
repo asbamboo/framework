@@ -8,6 +8,7 @@ use asbamboo\http\Stream;
 use asbamboo\framework\Constant;
 use asbamboo\router\RouteCollection;
 use asbamboo\framework\controller\exception\NotFindTemplateException;
+use asbamboo\http\ResponseInterface;
 
 /**
  * 控制器抽象类
@@ -26,13 +27,13 @@ abstract class ControllerAbstract implements ControllerInterface
     }
 
     /**
-     * 渲染视图并且返回一个response
+     * 继承本接口的控制器，通过view方法渲染视图并且返回一个response
      *
      * @param array $data
      * @param string $path
      * @return Response
      */
-    protected function view(array $data, string $path = null)
+    protected function view(array $data = [], string $path = null) : ResponseInterface
     {
         /**
          * 默认路径
@@ -54,7 +55,7 @@ abstract class ControllerAbstract implements ControllerInterface
             $view_path          = implode(DIRECTORY_SEPARATOR, $view_path_data);
             $path               = $view_path . DIRECTORY_SEPARATOR . strtolower(trim(preg_replace('@([A-Z])@', '-$1',$callback[1]),'-')) . '.html.tpl';
             $view_path          = $view_dir . $path;
-            
+
             if(!is_readable($view_path)){
                 throw new NotFindTemplateException('找不到或无法读取对应的模板文件。');
             }
