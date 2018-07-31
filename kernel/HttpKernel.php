@@ -1,8 +1,6 @@
 <?php
 namespace asbamboo\framework\kernel;
 
-use asbamboo\autoload\Autoload;
-use asbamboo\di\Container;
 use asbamboo\di\ContainerInterface;
 use asbamboo\http\ServerRequest;
 use asbamboo\di\ServiceMappingCollection;
@@ -15,32 +13,14 @@ use asbamboo\framework\Constant;
 use asbamboo\framework\config\RouterConfig;
 use asbamboo\database\Factory;
 use asbamboo\framework\config\DbConfig;
-use asbamboo\database\Connection;
 
 /**
  *
  * @author 李春寅 <licy2013@aliyun.com>
  * @since 2018年6月23日
  */
-abstract class HttpKernel implements KernelInterface
+abstract class HttpKernel extends Kernel
 {
-    /**
-     * 容器
-     * @var ContainerInterface
-     */
-    protected $container;
-
-    /**
-     *
-     * {@inheritDoc}
-     * @see \asbamboo\framework\kernel\KernelInterface::boot()
-     */
-    public function boot() : KernelInterface
-    {
-        $this->initAutoload();
-        $this->initContainer();
-        return $this;
-    }
 
     /**
      *
@@ -49,10 +29,7 @@ abstract class HttpKernel implements KernelInterface
      */
     public function run() : KernelInterface
     {
-        /**
-         * 启用引导
-         */
-        $this->boot();
+        parent::run();
 
         /**
          *
@@ -70,28 +47,15 @@ abstract class HttpKernel implements KernelInterface
     }
 
     /**
-     * 初始化自动加载
-     *
-     * @return \asbamboo\autoload\Autoload
-     */
-    private function initAutoload() : Autoload
-    {
-        return new Autoload();
-    }
-
-    /**
      * 初始化服务容器
      *
      * @return ContainerInterface
      */
-    private function initContainer() : ContainerInterface
+    protected function initContainer() : ContainerInterface
     {
-        $ServiceMappings    = $this->registerConfigs();
-        $this->container    = new Container($ServiceMappings);
+        parent::initContainer();
 
         $this->container->get(Constant::KERNEL_ROUTER_CONFIG)->configure();
-        $this->container->get(Constant::KERNEL_DB_CONFIG)->configure();
-        $this->container->set(Constant::KERNEL, $this);
 
         return $this->container;
     }
@@ -101,7 +65,7 @@ abstract class HttpKernel implements KernelInterface
      *
      * @return ServiceMappingCollectionInterface
      */
-    private function registerConfigs() : ServiceMappingCollectionInterface
+    protected function registerConfigs() : ServiceMappingCollectionInterface
     {
         $ServiceMappings                        = new ServiceMappingCollection();
         $default_configs                        = [
@@ -124,18 +88,4 @@ abstract class HttpKernel implements KernelInterface
         }
         return $ServiceMappings;
     }
-
-    /**
-     * 配置文件路径
-     *
-     * @return string
-     */
-    abstract function getConfigPath(): string;
-    
-    /**
-     * 获取项目的根目录
-     * 
-     * @return string
-     */
-    abstract function getProjectDir(): string;
 }
