@@ -7,6 +7,7 @@ use asbamboo\di\ServiceMappingCollectionInterface;
 use asbamboo\framework\Constant;
 use asbamboo\database\Factory;
 use asbamboo\framework\config\DbConfig;
+use asbamboo\console\Processor;
 
 /**
  *
@@ -26,6 +27,8 @@ abstract class ConsoleKernel extends Kernel
          * 启用引导
          */
         parent::run();
+        
+        $this->container->get(Constant::KERNEL_CONSOLE)->exec();
 
         return $this;
     }
@@ -35,12 +38,13 @@ abstract class ConsoleKernel extends Kernel
      *
      * @return ServiceMappingCollectionInterface
      */
-    private function registerConfigs() : ServiceMappingCollectionInterface
+    protected function registerConfigs() : ServiceMappingCollectionInterface
     {
         $ServiceMappings                        = new ServiceMappingCollection();
         $default_configs                        = [
             Constant::KERNEL_DB                 => ['class' => Factory::class],
             Constant::KERNEL_DB_CONFIG          => ['class' => DbConfig::class],
+            Constant::KERNEL_CONSOLE            => ['class' => Processor::class]
         ];
         $custom_configs                     = include $this->getConfigPath();
         $configs                            = array_merge($default_configs, $custom_configs);

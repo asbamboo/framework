@@ -20,4 +20,5 @@ final class Constant
     const KERNEL_TEMPLATE           = 'kernel.template';
     const KERNEL_DB                 = 'kernel.db.factory';
     const KERNEL_DB_CONFIG          = 'kernel.db.config';
+    const KERNEL_CONSOLE            = 'kernel.console';
 }

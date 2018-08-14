@@ -37,8 +37,8 @@ abstract class HttpKernel extends Kernel
          * @var ServerRequest $Request
          * @var Response $Response
          */
-        $Request    = $this->container->get('kernel.request');
-        $Router     = $this->container->get('kernel.router');
+        $Request    = $this->container->get(Constant::KERNEL_REQUEST);
+        $Router     = $this->container->get(Constant::KERNEL_ROUTER);
         $Response   = $Router->matchRequest($Request);
 
         echo $Response->getBody();
