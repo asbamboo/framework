@@ -77,13 +77,12 @@ abstract class Kernel implements KernelInterface
         $ServiceMappings    = $this->registerConfigs();
         $this->container    = new Container($ServiceMappings);
 
-        $this->container->get(Constant::KERNEL_ROUTER_CONFIG)->configure();
         $this->container->get(Constant::KERNEL_DB_CONFIG)->configure();
         $this->container->set(Constant::KERNEL, $this);
 
         return $this->container;
     }
-
+    
     /**
      * 配置文件路径
      *
