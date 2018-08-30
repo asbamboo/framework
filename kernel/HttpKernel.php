@@ -8,11 +8,12 @@ use asbamboo\di\ServiceMapping;
 use asbamboo\router\Router;
 use asbamboo\di\ServiceMappingCollectionInterface;
 use asbamboo\router\RouteCollection;
-use asbamboo\template\Template;
 use asbamboo\framework\Constant;
 use asbamboo\framework\config\RouterConfig;
 use asbamboo\database\Factory;
 use asbamboo\framework\config\DbConfig;
+use asbamboo\session\Session;
+use asbamboo\framework\template\Template;
 
 /**
  *
@@ -72,6 +73,7 @@ abstract class HttpKernel extends Kernel
             Constant::KERNEL_DB                 => ['class' => Factory::class],
             Constant::KERNEL_DB_CONFIG          => ['class' => DbConfig::class],
             Constant::KERNEL_REQUEST            => ['class' => ServerRequest::class],
+            Constant::KERNEL_SESSION            => ['class' => Session::class],
             Constant::KERNEL_ROUTER_CONFIG      => ['class' => RouterConfig::class],
             Constant::KERNEL_ROUTE_COLLECTION   => ['class' => RouteCollection::class],
             Constant::KERNEL_ROUTER             => ['class' => Router::class, 'init_params' => ['RouteCollection' => '@' . Constant::KERNEL_ROUTE_COLLECTION]],

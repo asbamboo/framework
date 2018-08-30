@@ -1,0 +1,47 @@
+<?php
+namespace asbamboo\framework\template\extension;
+
+use asbamboo\template\Extension;
+use asbamboo\template\Functions;
+use asbamboo\di\ContainerAwareTrait;
+use asbamboo\framework\Constant;
+use asbamboo\router\RouterInterface;
+
+/**
+ * template 模板中使用的扩展[路由相关]
+ *
+ * @author 李春寅 <licy2013@aliyun.com>
+ * @since 2018年8月30日
+ */
+class RouterExtension extends Extension
+{
+    use ContainerAwareTrait;
+
+    /**
+     *
+     * {@inheritDoc}
+     * @see Extension::getFunctions()
+     */
+    public function getFunctions()
+    {
+        return [
+            new Functions('path', [$this, 'path']),
+        ];
+    }
+
+    /**
+     *
+     * @param string $route_id
+     * @param array|null $params
+     * @return string
+     */
+    public function path($route_id, $params = null) : string
+    {
+        /**
+         *
+         * @var RouterInterface $Router
+         */
+        $Router = $this->Container->get(Constant::KERNEL_ROUTER);
+        return $Router->generateUrl($route_id, $params);
+    }
+}

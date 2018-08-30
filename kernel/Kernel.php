@@ -4,18 +4,7 @@ namespace asbamboo\framework\kernel;
 use asbamboo\autoload\Autoload;
 use asbamboo\di\Container;
 use asbamboo\di\ContainerInterface;
-use asbamboo\http\ServerRequest;
-use asbamboo\di\ServiceMappingCollection;
-use asbamboo\di\ServiceMapping;
-use asbamboo\router\Router;
-use asbamboo\di\ServiceMappingCollectionInterface;
-use asbamboo\router\RouteCollection;
-use asbamboo\template\Template;
 use asbamboo\framework\Constant;
-use asbamboo\framework\config\RouterConfig;
-use asbamboo\database\Factory;
-use asbamboo\framework\config\DbConfig;
-use asbamboo\database\Connection;
 
 /**
  *
@@ -82,7 +71,7 @@ abstract class Kernel implements KernelInterface
 
         return $this->container;
     }
-    
+
     /**
      * 配置文件路径
      *
