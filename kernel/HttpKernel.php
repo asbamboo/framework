@@ -14,6 +14,7 @@ use asbamboo\database\Factory;
 use asbamboo\framework\config\DbConfig;
 use asbamboo\session\Session;
 use asbamboo\framework\template\Template;
+use asbamboo\http\Response;
 
 /**
  *
@@ -42,7 +43,7 @@ abstract class HttpKernel extends Kernel
         $Router     = $this->container->get(Constant::KERNEL_ROUTER);
         $Response   = $Router->matchRequest($Request);
 
-        echo $Response->getBody();
+        $Response->send();
 
         return $this;
     }

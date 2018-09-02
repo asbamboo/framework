@@ -3,9 +3,9 @@ namespace asbamboo\framework\template\extension;
 
 use asbamboo\template\Extension;
 use asbamboo\template\Functions;
-use asbamboo\di\ContainerAwareTrait;
 use asbamboo\framework\Constant;
 use asbamboo\router\RouterInterface;
+use asbamboo\framework\template\Template;
 
 /**
  * template 模板中使用的扩展[路由相关]
@@ -15,7 +15,20 @@ use asbamboo\router\RouterInterface;
  */
 class RouterExtension extends Extension
 {
-    use ContainerAwareTrait;
+    /**
+     *
+     * @var Template
+     */
+    private $Template;
+
+    /**
+     *
+     * @param Template $Template
+     */
+    public function __construct(Template $Template)
+    {
+        $this->Template = $Template;
+    }
 
     /**
      *
@@ -41,7 +54,7 @@ class RouterExtension extends Extension
          *
          * @var RouterInterface $Router
          */
-        $Router = $this->Container->get(Constant::KERNEL_ROUTER);
+        $Router = $this->Template->getContainer()->get(Constant::KERNEL_ROUTER);
         return $Router->generateUrl($route_id, $params);
     }
 }
