@@ -67,6 +67,7 @@ abstract class Kernel implements KernelInterface
         $this->container    = new Container($ServiceMappings);
 
         $this->container->get(Constant::KERNEL_DB_CONFIG)->configure();
+        $this->container->get(Constant::KERNEL_EVENT_LISTENER_CONFIG)->configure();
         $this->container->set(Constant::KERNEL, $this);
 
         return $this->container;

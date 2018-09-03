@@ -9,6 +9,8 @@ use asbamboo\framework\Constant;
 use asbamboo\router\RouteCollection;
 use asbamboo\framework\controller\exception\NotFindTemplateException;
 use asbamboo\http\ResponseInterface;
+use asbamboo\http\RedirectResponse;
+use asbamboo\router\Router;
 
 /**
  * 控制器抽象类
@@ -72,8 +74,21 @@ abstract class ControllerAbstract implements ControllerInterface
         return new Response($Stream);
     }
 
-    protected function response()
+    /**
+     * 跳转到另一个路由
+     *
+     * @param string $route_id
+     * @param array $route_params
+     * @return \asbamboo\http\RedirectResponse
+     */
+    protected function redirect(string $route_id, array $route_params = null)
     {
-
+        /**
+         *
+         * @var Router $Router
+         */
+        $Router     = $this->Container->get(Constant::KERNEL_ROUTER);
+        $target_uri = $Router->generateUrl($route_id, $route_params);
+        return new RedirectResponse($target_uri);
     }
 }

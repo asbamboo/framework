@@ -15,6 +15,7 @@ use asbamboo\framework\config\DbConfig;
 use asbamboo\session\Session;
 use asbamboo\framework\template\Template;
 use asbamboo\http\Response;
+use asbamboo\framework\config\EventListenerConfig;
 
 /**
  *
@@ -69,16 +70,17 @@ abstract class HttpKernel extends Kernel
      */
     protected function registerConfigs() : ServiceMappingCollectionInterface
     {
-        $ServiceMappings                        = new ServiceMappingCollection();
-        $default_configs                        = [
-            Constant::KERNEL_DB                 => ['class' => Factory::class],
-            Constant::KERNEL_DB_CONFIG          => ['class' => DbConfig::class],
-            Constant::KERNEL_REQUEST            => ['class' => ServerRequest::class],
-            Constant::KERNEL_SESSION            => ['class' => Session::class],
-            Constant::KERNEL_ROUTER_CONFIG      => ['class' => RouterConfig::class],
-            Constant::KERNEL_ROUTE_COLLECTION   => ['class' => RouteCollection::class],
-            Constant::KERNEL_ROUTER             => ['class' => Router::class, 'init_params' => ['RouteCollection' => '@' . Constant::KERNEL_ROUTE_COLLECTION]],
-            Constant::KERNEL_TEMPLATE           => ['class' => Template::class],
+        $ServiceMappings                            = new ServiceMappingCollection();
+        $default_configs                            = [
+            Constant::KERNEL_DB                     => ['class' => Factory::class],
+            Constant::KERNEL_DB_CONFIG              => ['class' => DbConfig::class],
+            Constant::KERNEL_REQUEST                => ['class' => ServerRequest::class],
+            Constant::KERNEL_SESSION                => ['class' => Session::class],
+            Constant::KERNEL_ROUTER_CONFIG          => ['class' => RouterConfig::class],
+            Constant::KERNEL_ROUTE_COLLECTION       => ['class' => RouteCollection::class],
+            Constant::KERNEL_ROUTER                 => ['class' => Router::class, 'init_params' => ['RouteCollection' => '@' . Constant::KERNEL_ROUTE_COLLECTION]],
+            Constant::KERNEL_EVENT_LISTENER_CONFIG  => ['class' => EventListenerConfig::class],
+            Constant::KERNEL_TEMPLATE               => ['class' => Template::class],
         ];
         $custom_configs                     = include $this->getConfigPath();
         $configs                            = array_merge($default_configs, $custom_configs);
