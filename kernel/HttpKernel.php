@@ -16,6 +16,12 @@ use asbamboo\session\Session;
 use asbamboo\framework\template\Template;
 use asbamboo\http\Response;
 use asbamboo\framework\config\EventListenerConfig;
+use asbamboo\security\gurad\authorization\Authenticator;
+use asbamboo\security\user\token\UserTokenInterface;
+use asbamboo\security\gurad\authorization\AuthenticatorInterface;
+use asbamboo\http\ResponseInterface;
+use asbamboo\http\ServerRequestInterface;
+use asbamboo\router\RouterInterface;
 
 /**
  *
@@ -36,14 +42,18 @@ abstract class HttpKernel extends Kernel
 
         /**
          *
-         * @var Router $Router
-         * @var ServerRequest $Request
-         * @var Response $Response
+         * @var RouterInterface $Router
+         * @var ServerRequestInterface $Request
+         * @var ResponseInterface $Response
+         * @var AuthenticatorInterface $Authenticator
+         * @var UserTokenInterface $UserToken
          */
-        $Request    = $this->container->get(Constant::KERNEL_REQUEST);
-        $Router     = $this->container->get(Constant::KERNEL_ROUTER);
-        $Response   = $Router->matchRequest($Request);
-
+        $Request        = $this->container->get(Constant::KERNEL_REQUEST);
+        $Router         = $this->container->get(Constant::KERNEL_ROUTER);
+        $Authenticator  = $this->container->get(Constant::KERNEL_GURAD_AUTHENTICATOR);
+        $UserToken      = $this->container->get(Constant::KERNEL_USER_TOKEN);
+        $Authenticator->validate($UserToken->getUser(), $Request);
+        $Response       = $Router->matchRequest($Request);
         $Response->send();
 
         return $this;
@@ -80,6 +90,7 @@ abstract class HttpKernel extends Kernel
             Constant::KERNEL_ROUTE_COLLECTION       => ['class' => RouteCollection::class],
             Constant::KERNEL_ROUTER                 => ['class' => Router::class, 'init_params' => ['RouteCollection' => '@' . Constant::KERNEL_ROUTE_COLLECTION]],
             Constant::KERNEL_EVENT_LISTENER_CONFIG  => ['class' => EventListenerConfig::class],
+            Constant::KERNEL_GURAD_AUTHENTICATOR    => ['class' => Authenticator::class],
             Constant::KERNEL_TEMPLATE               => ['class' => Template::class],
         ];
         $custom_configs                     = include $this->getConfigPath();

@@ -6,6 +6,9 @@ use asbamboo\template\Functions;
 use asbamboo\framework\Constant;
 use asbamboo\router\RouterInterface;
 use asbamboo\framework\template\Template;
+use asbamboo\http\ServerRequestInterface;
+use asbamboo\router\Route;
+use asbamboo\router\RouteCollectionInterface;
 
 /**
  * template 模板中使用的扩展[路由相关]
@@ -39,6 +42,7 @@ class RouterExtension extends Extension
     {
         return [
             new Functions('path', [$this, 'path']),
+            new Functions('is_current', [$this, 'isCurrent']),
         ];
     }
 
@@ -48,7 +52,7 @@ class RouterExtension extends Extension
      * @param array|null $params
      * @return string
      */
-    public function path($route_id, $params = null) : string
+    public function path(string $route_id, array $params = null) : string
     {
         /**
          *
@@ -56,5 +60,22 @@ class RouterExtension extends Extension
          */
         $Router = $this->Template->getContainer()->get(Constant::KERNEL_ROUTER);
         return $Router->generateUrl($route_id, $params);
+    }
+
+    /**
+     * 判断一个路由是否时当前正在请求的路由
+     *
+     * @param string $route_id
+     * @return boolean
+     */
+    public function isCurrent(string $route_id) : bool
+    {
+        /**
+         *
+         * @var RouteCollectionInterface $RouteCollection
+         */
+        $RouteCollection    = $this->Template->getContainer()->get(Constant::KERNEL_ROUTE_COLLECTION);
+        $Route              = $RouteCollection->getMatchedRoute();
+        return $Route && $Route->getId() == $route_id;
     }
 }

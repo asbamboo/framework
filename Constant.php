@@ -22,5 +22,9 @@ final class Constant
     const KERNEL_DB                     = 'kernel.db.factory';
     const KERNEL_DB_CONFIG              = 'kernel.db.config';
     const KERNEL_CONSOLE                = 'kernel.console';
+    const KERNEL_USER_PROVIDER          = 'kernel.user.provider';
+    const KERNEL_USER_TOKEN             = 'kernel.user.token';
+    const KERNEL_USER_LOGIN             = 'kernel.user.login';
+    const KERNEL_GURAD_AUTHENTICATOR    = 'kernel.gurad.authenticator';
     const KERNEL_EVENT_LISTENER_CONFIG  = 'kernel.event.listener.config';
 }
