@@ -25,6 +25,8 @@ final class Constant
     const KERNEL_USER_PROVIDER          = 'kernel.user.provider';
     const KERNEL_USER_TOKEN             = 'kernel.user.token';
     const KERNEL_USER_LOGIN             = 'kernel.user.login';
+    const KERNEL_USER_LOGOUT            = 'kernel.user.logout';
     const KERNEL_GURAD_AUTHENTICATOR    = 'kernel.gurad.authenticator';
     const KERNEL_EVENT_LISTENER_CONFIG  = 'kernel.event.listener.config';
+    const KERNEL_EXCEPTION_HANDLER      = 'kernel.exception.handler';
 }

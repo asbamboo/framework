@@ -7,10 +7,10 @@ use asbamboo\http\Response;
 use asbamboo\http\Stream;
 use asbamboo\framework\Constant;
 use asbamboo\router\RouteCollection;
-use asbamboo\framework\controller\exception\NotFindTemplateException;
 use asbamboo\http\ResponseInterface;
 use asbamboo\http\RedirectResponse;
 use asbamboo\router\Router;
+use asbamboo\framework\exception\NotFindTemplateException;
 
 /**
  * 控制器抽象类
@@ -37,6 +37,13 @@ abstract class ControllerAbstract implements ControllerInterface
      */
     protected function view(array $data = [], string $path = null) : ResponseInterface
     {
+
+        /**
+         *
+         * @var Template $Template
+         */
+        $Template           = $this->Container->get(Constant::KERNEL_TEMPLATE);
+
         /**
          * 默认路径
          *  - 等于项目根目录 + /view/ + （controller命名空间下命名路径，单词之间改用‘-’连接）+ 后缀名 'html.tpl'
@@ -46,8 +53,6 @@ abstract class ControllerAbstract implements ControllerInterface
         if($path === null){
             $RouteCollection    = $this->Container->get(Constant::KERNEL_ROUTE_COLLECTION);
             $Route              = $RouteCollection->getMatchedRoute();
-            $project_dir        = rtrim($this->Container->get(Constant::KERNEL)->getProjectDir(), DIRECTORY_SEPARATOR);
-            $view_dir           = $project_dir . DIRECTORY_SEPARATOR .  'view';
             $callback           = $Route->getCallback();
             $view_path_data     = preg_replace('@.*controller@u', '', get_class($callback[0]));
             $view_path_data     = explode('\\', $view_path_data);
@@ -56,18 +61,24 @@ abstract class ControllerAbstract implements ControllerInterface
             }
             $view_path          = implode(DIRECTORY_SEPARATOR, $view_path_data);
             $path               = $view_path . DIRECTORY_SEPARATOR . strtolower(trim(preg_replace('@([A-Z])@', '-$1',$callback[1]),'-')) . '.html.tpl';
-            $view_path          = $view_dir . $path;
-
-            if(!is_readable($view_path)){
+            $path_is_readable   = false;
+            foreach($Template->getLoader()->getPaths() AS $view_dir){
+                $view_path          = $view_dir . $path;
+                if(is_readable($view_path)){
+                    $path_is_readable   = true;
+                    break;
+                }
+            }
+            if(! $path_is_readable){
                 throw new NotFindTemplateException('找不到或无法读取对应的模板文件。');
             }
         }
 
         /**
+         * 渲染
          *
-         * @var Template $Template
+         * @var string $content
          */
-        $Template   = $this->Container->get('kernel.template');
         $content    = $Template->render($path, $data);
         $Stream     = new Stream('php://temp', 'w+b');
         $Stream->write($content);

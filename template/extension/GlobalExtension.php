@@ -7,6 +7,7 @@ use asbamboo\framework\Constant;
 use asbamboo\template\ExtensionGlobalsInterface;
 use asbamboo\security\user\token\UserTokenInterface;
 use asbamboo\http\ServerRequestInterface;
+use asbamboo\framework\kernel\KernelInterface;
 
 /**
  * 添加模板使用的全局变量
@@ -40,6 +41,7 @@ class GlobalExtension extends Extension implements ExtensionGlobalsInterface
         return ['app'=>[
             'user'      => $this->user(),
             'request'   => $this->request(),
+            'is_debug'  => $this->isDebug(),
         ]];
     }
 
@@ -71,5 +73,19 @@ class GlobalExtension extends Extension implements ExtensionGlobalsInterface
          */
         $ServerRequest  = $this->Template->getContainer()->get(Constant::KERNEL_REQUEST);
         return $ServerRequest;
+    }
+
+    /**
+     * 是否时debug模式
+     *
+     * @return boolean
+     */
+    public function isDebug()
+    {
+        /**
+         * @var KernelInterface $Kernel
+         */
+        $Kernel  = $this->Template->getContainer()->get(Constant::KERNEL);
+        return $Kernel->getIsDebug();
     }
 }
