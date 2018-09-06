@@ -30,13 +30,13 @@ use asbamboo\framework\exception\Handler;
  * @author 李春寅 <licy2013@aliyun.com>
  * @since 2018年6月23日
  */
-abstract class Kernel implements KernelInterface
+abstract class KernelAbstract implements KernelInterface
 {
     /**
      * 容器
      * @var ContainerInterface
      */
-    protected $container;
+    protected $Container;
 
     /**
      * 是否时debug模式
@@ -47,33 +47,22 @@ abstract class Kernel implements KernelInterface
 
     /**
      *
-     * {@inheritDoc}
-     * @see \asbamboo\framework\kernel\KernelInterface::boot()
+     * @param bool $is_debug
      */
-    public function boot() : KernelInterface
+    public function __construct(bool $is_debug)
     {
-        $this->initAutoload();
-        $this->initContainer();
-        return $this;
+        $this->setIsDebug($is_debug);
+        $this->boot();
     }
 
     /**
+     * 设置是否以debug模式运行
      *
-     * {@inheritDoc}
-     * @see \asbamboo\framework\kernel\KernelInterface::run()
+     * @param bool $is_debug
      */
-    public function run(bool $debug = false) : KernelInterface
+    public function setIsDebug(bool $is_debug) : self
     {
-        /**
-         * 是否开启debug模式
-         */
-        $this->is_debug = $debug;
-
-        /**
-         * 启用引导
-         */
-        $this->boot();
-
+        $this->is_debug = $is_debug;
         return $this;
     }
 
@@ -88,11 +77,33 @@ abstract class Kernel implements KernelInterface
     }
 
     /**
+     *
+     * {@inheritDoc}
+     * @see \asbamboo\framework\kernel\KernelInterface::getContainer()
+     */
+    public function getContainer() : ContainerInterface
+    {
+        return $this->Container;
+    }
+
+    /**
+     *
+     * {@inheritDoc}
+     * @see \asbamboo\framework\kernel\KernelInterface::boot()
+     */
+    public function boot() : KernelInterface
+    {
+        $this->initAutoload();
+        $this->initContainer();
+        return $this;
+    }
+
+    /**
      * 初始化自动加载
      *
      * @return \asbamboo\autoload\Autoload
      */
-    private function initAutoload() : Autoload
+    protected function initAutoload() : Autoload
     {
         return new Autoload();
     }
@@ -105,13 +116,14 @@ abstract class Kernel implements KernelInterface
     protected function initContainer() : ContainerInterface
     {
         $ServiceMappings    = $this->registerConfigs();
-        $this->container    = new Container($ServiceMappings);
+        $this->Container    = new Container($ServiceMappings);
 
-        $this->container->get(Constant::KERNEL_DB_CONFIG)->configure();
-        $this->container->get(Constant::KERNEL_EVENT_LISTENER_CONFIG)->configure();
-        $this->container->set(Constant::KERNEL, $this);
+        $this->Container->get(Constant::KERNEL_DB_CONFIG)->configure();
+        $this->Container->get(Constant::KERNEL_EVENT_LISTENER_CONFIG)->configure();
+        $this->Container->get(Constant::KERNEL_ROUTER_CONFIG)->configure();
+        $this->Container->set(Constant::KERNEL, $this);
 
-        return $this->container;
+        return $this->Container;
     }
 
     /**
@@ -121,8 +133,8 @@ abstract class Kernel implements KernelInterface
      */
     protected function registerConfigs() : ServiceMappingCollectionInterface
     {
-        $ServiceMappings                            = new ServiceMappingCollection();
-        $default_configs                            = [
+        $ServiceMappings    = new ServiceMappingCollection();
+        $default_configs    = [
             Constant::KERNEL_DB                     => ['class' => Factory::class],
             Constant::KERNEL_DB_CONFIG              => ['class' => DbConfig::class],
             Constant::KERNEL_CONSOLE                => ['class' => Processor::class],
@@ -134,22 +146,22 @@ abstract class Kernel implements KernelInterface
             Constant::KERNEL_USER_PROVIDER          => ['class' => MemoryUserProvider::class],
             Constant::KERNEL_USER_TOKEN             => ['class' => UserToken::class, 'init_params' => ['Session' => '@' . Constant::KERNEL_SESSION]],
             Constant::KERNEL_USER_LOGIN             => [
-                                                        'class' => BaseLogin::class,
-                                                        'init_params' => [
-                                                            'UserProvider'=>'@' . Constant::KERNEL_USER_PROVIDER,
-                                                            'UserToken'=>'@' . Constant::KERNEL_USER_TOKEN]
-                                                        ],
+                'class' => BaseLogin::class,
+                'init_params' => [
+                    'UserProvider'=>'@' . Constant::KERNEL_USER_PROVIDER,
+                    'UserToken'=>'@' . Constant::KERNEL_USER_TOKEN]
+            ],
             Constant::KERNEL_USER_LOGOUT            => ['class' => BaseLogout::class, 'init_params' => ['UserToken'=>'@' . Constant::KERNEL_USER_TOKEN]],
             Constant::KERNEL_GURAD_AUTHENTICATOR    => ['class' => Authenticator::class],
             Constant::KERNEL_TEMPLATE               => [
-                                                        'class' => Template::class,
-                                                        'init_params' => ['template_dir' => $this->getProjectDir() . DIRECTORY_SEPARATOR . 'view']
-                                                        ],
+                'class' => Template::class,
+                'init_params' => ['template_dir' => $this->getProjectDir() . DIRECTORY_SEPARATOR . 'view']
+            ],
             Constant::KERNEL_EVENT_LISTENER_CONFIG  => ['class' => EventListenerConfig::class],
             Constant::KERNEL_EXCEPTION_HANDLER      => ['class' => Handler::class],
         ];
-        $custom_configs                     = include $this->getConfigPath();
-        $configs                            = array_replace_recursive($default_configs, $custom_configs);
+        $custom_configs     = include $this->getConfigPath();
+        $configs            = array_replace_recursive($default_configs, $custom_configs);
         foreach($configs AS $key => $config){
             if(ctype_digit((string) $key) == false && !isset($config['id'])){
                 $config['id']   = $key;
