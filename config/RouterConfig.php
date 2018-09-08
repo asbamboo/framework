@@ -45,10 +45,8 @@ class RouterConfig
         foreach($this->configs AS $key => $config){
             if(is_string( $config['callback'] )){
                 @list($class, $method) = explode(':', $config['callback']);
-                if(!$this->Container->has($class)){
-                    $this->Container->set($class, new $class);
-                }
-                $config['callback']  = [$this->Container->get($class), $method];
+                $object = $this->Container->get($class);
+                $config['callback']  = [$object, $method];
             }
 
             $RouteCollection->add(new Route($config['id'], $config['path'], $config['callback'], $config['default_params'] ?? null, $config['options'] ?? null));
