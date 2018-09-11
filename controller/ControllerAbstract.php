@@ -23,11 +23,6 @@ abstract class ControllerAbstract implements ControllerInterface
 {
     use ContainerAwareTrait;
 
-    protected function json($data)
-    {
-
-    }
-
     /**
      * 继承本接口的控制器，通过view方法渲染视图并且返回一个response
      *

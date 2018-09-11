@@ -1,0 +1,8 @@
+<?php
+namespace asbamboo\frameworkDemo\bin;
+
+use asbamboo\framework\kernel\Console;
+use asbamboo\framework\_test\fixtures\TestKernel;
+
+$autoload   = include dirname(dirname(dirname(__DIR__))) . '/vendor/asbamboo/autoload/bootstrap.php';
+(new Console())->run(new TestKernel($debug = true));

@@ -93,19 +93,8 @@ abstract class KernelAbstract implements KernelInterface
      */
     public function boot() : KernelInterface
     {
-        $this->initAutoload();
         $this->initContainer();
         return $this;
-    }
-
-    /**
-     * 初始化自动加载
-     *
-     * @return \asbamboo\autoload\Autoload
-     */
-    protected function initAutoload() : Autoload
-    {
-        return new Autoload();
     }
 
     /**
