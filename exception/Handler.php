@@ -3,11 +3,12 @@ namespace asbamboo\framework\exception;
 
 use asbamboo\di\ContainerAwareTrait;
 use asbamboo\framework\Constant;
-use asbamboo\framework\template\Template;
 use asbamboo\http\Response;
 use asbamboo\http\Stream;
+use asbamboo\template\TemplateInterface;
 
 /**
+ * 将捕获到的异常信息输出
  *
  * @author 李春寅 <licy2013@aliyun.com>
  * @since 2018年9月5日
@@ -33,10 +34,15 @@ class Handler implements HandlerInterface
         return $this;
     }
 
+    /**
+     *
+     * {@inheritDoc}
+     * @see \asbamboo\framework\exception\HandlerInterface::print()
+     */
     public function print(string $format = self::FORMAT_HTML) : void
     {
         /**
-         * @var Template $Template
+         * @var TemplateInterface $Template
          */
         $Exception                  = $this->Exception;
         $Template                   = $this->Container->get(Constant::KERNEL_TEMPLATE);

@@ -19,10 +19,10 @@ class Template extends BaseTemplate
      * @param array $template_dir
      * @param boolean $cache_dir
      */
-    public function __construct($template_dir = [], $cache_dir = false)
+    public function __construct($template_dir = [], $cache_dir = false, $extensions = [])
     {
         parent::__construct($template_dir, $cache_dir);
-        $this->initExtensions();
+        $this->initExtensions($extensions);
     }
 
     /**
@@ -38,7 +38,7 @@ class Template extends BaseTemplate
     /**
      * 添加框架内部内置的模板扩展
      */
-    public function initExtensions()
+    public function initExtensions($extensions = [])
     {
         $extension_dir      = __DIR__ . DIRECTORY_SEPARATOR . 'extension';
         $extension_files    = array_diff(scandir($extension_dir), ['.' , '..']);
@@ -46,6 +46,11 @@ class Template extends BaseTemplate
             $class      = __NAMESPACE__ . '\\extension\\' . substr($extension_file, 0, -4/*.php*/);
             $Extension  = new $class($this);
             $this->addExtension($Extension);
+        }
+
+        foreach((array)$extensions AS $extension){
+            $extension  = is_object($extension) ? $extension : new $extension;
+            $this->addExtension($extension);
         }
     }
 }

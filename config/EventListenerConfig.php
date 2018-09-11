@@ -5,6 +5,16 @@ use asbamboo\di\ContainerAwareTrait;
 use asbamboo\event\EventListener;
 
 /**
+ * 设置事件监听器
+ *  - $config应该是一个这样的数组
+ *      [
+ *          ['name' => 'test_listener1', 'class' => get_class($TestListenerClass1), 'method' => 'onAdd', 'construct_params' => [1, 1]],
+ *          ['name' => 'test_listener2', 'class' => get_class($TestListenerClass1), 'method' => 'onMulti', 'construct_params' => [1, 1]],
+ *      ]
+ *  - name 监听器 id
+ *  - class 监听器执行的class
+ *  - method 监听器执行的method
+ *  - construct_params 监听器初始化时传入的参数
  *
  * @author 李春寅 <licy2013@aliyun.com>
  * @since 2018年9月3日
@@ -31,7 +41,7 @@ class EventListenerConfig
     /**
      *
      */
-    public function configure()
+    public function configure() : void
     {
         foreach($this->configs AS $config)
         {
@@ -41,7 +51,7 @@ class EventListenerConfig
                     $config['construct_params'][$key]   = $this->Container->get($server_id);
                 }
             }
-            EventListener::instance()->set($config['name'], $config['class'], $config['method'], $config['construct_params']);
+            EventListener::instance()->set($config['name'], $config['class'], $config['method'], $config['construct_params'] ?? [], $config['priority'] ?? null);
         }
     }
 }
