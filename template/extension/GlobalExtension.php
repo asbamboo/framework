@@ -3,7 +3,6 @@ namespace asbamboo\framework\template\extension;
 
 use asbamboo\template\Extension;
 use asbamboo\framework\template\Template;
-use asbamboo\framework\Constant;
 use asbamboo\template\ExtensionGlobalsInterface;
 use asbamboo\security\user\token\UserTokenInterface;
 use asbamboo\http\ServerRequestInterface;
@@ -56,7 +55,7 @@ class GlobalExtension extends Extension implements ExtensionGlobalsInterface
          *
          * @var UserTokenInterface $UserToken
          */
-        $UserToken  = $this->Template->getContainer()->get(Constant::KERNEL_USER_TOKEN);
+        $UserToken  = $this->Template->getContainer()->get(UserTokenInterface::class);
         return $UserToken->getUser();
     }
 
@@ -71,7 +70,7 @@ class GlobalExtension extends Extension implements ExtensionGlobalsInterface
          *
          * @var ServerRequestInterface  $ServerRequest
          */
-        $ServerRequest  = $this->Template->getContainer()->get(Constant::KERNEL_REQUEST);
+        $ServerRequest  = $this->Template->getContainer()->get(ServerRequestInterface::class);
         return $ServerRequest;
     }
 
@@ -85,7 +84,7 @@ class GlobalExtension extends Extension implements ExtensionGlobalsInterface
         /**
          * @var KernelInterface $Kernel
          */
-        $Kernel  = $this->Template->getContainer()->get(Constant::KERNEL);
+        $Kernel  = $this->Template->getContainer()->get(KernelInterface::class);
         return $Kernel->getIsDebug();
     }
 }

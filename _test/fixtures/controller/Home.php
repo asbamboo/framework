@@ -12,7 +12,7 @@ class Home extends ControllerAbstract
 {
     public function index($p1, $p2)
     {
-        
+
         $this->createProduct();
         $this->searchProduct();
         return $this->view([
@@ -23,32 +23,32 @@ class Home extends ControllerAbstract
 //         $Stream->write("test kernel route. p1:{$p1}, p2:{$p2}");
 //         return new Response($Stream);
     }
-    
+
     public function createProduct()
     {
         /**
-         * 
+         *
          * @var Factory $Db
          */
-        $Db         = $this->Container->get(Constant::KERNEL_DB);
+        $Db         = $this->Container->get('kernel.db.factory');
         $conn       = ['default','a','b'];
         $i          = array_rand($conn, 1);
         $Manager    = $Db->getManager($conn[$i]);
 //         $Manager->getConnection()->exec("CREATE TABLE products(id INTEGER PRIMARY KEY, name)");
-        
+
         $Product    = new ProductEntity();
         $Product->setName('test'.uniqid());
         $Manager->persist($Product);
 //         $Manager->flush();
     }
-    
+
     public function searchProduct()
     {
         /**
          *
          * @var Factory $Db
          */
-        $Db         = $this->Container->get(Constant::KERNEL_DB);
+        $Db         = $this->Container->get('kernel.db.factory');
         $conn       = ['default','a','b'];
         $i          = array_rand($conn, 1);
         $Manager    = $Db->getManager($conn[$i]);

@@ -21,7 +21,7 @@ class DbConfigTest extends TestCase
     {
         $ServiceMappings    = new ServiceMappingCollection();
         $Container          = new Container($ServiceMappings);
-        $Container->set(Constant::KERNEL_DB, new Factory());
+        $Container->set('kernel.db.factory', new Factory());
 
         // 试试看如果没有配置信息，是否会报错。
         $DbConfig   = new DbConfig();
@@ -40,7 +40,7 @@ class DbConfigTest extends TestCase
         ]);
         $DbConfig->setContainer($Container);
         $DbConfig->configure();
-        $this->assertInstanceOf(ManagerInterface::class, $Container->get(Constant::KERNEL_DB)->getManager());
+        $this->assertInstanceOf(ManagerInterface::class, $Container->get('kernel.db.factory')->getManager());
 
 
         // 测试只有多个数据库
@@ -76,8 +76,8 @@ class DbConfigTest extends TestCase
         ]);
         $DbConfig->setContainer($Container);
         $DbConfig->configure();
-        $this->assertInstanceOf(ManagerInterface::class, $Container->get(Constant::KERNEL_DB)->getManager('db1'));
-        $this->assertInstanceOf(ManagerInterface::class, $Container->get(Constant::KERNEL_DB)->getManager('db2'));
-        $this->assertInstanceOf(ManagerInterface::class, $Container->get(Constant::KERNEL_DB)->getManager('db3'));
+        $this->assertInstanceOf(ManagerInterface::class, $Container->get('kernel.db.factory')->getManager('db1'));
+        $this->assertInstanceOf(ManagerInterface::class, $Container->get('kernel.db.factory')->getManager('db2'));
+        $this->assertInstanceOf(ManagerInterface::class, $Container->get('kernel.db.factory')->getManager('db3'));
     }
 }

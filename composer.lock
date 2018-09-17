@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "9818562a809da48d1bab3256e9c0e705",
+    "content-hash": "491e2becadc895d5c7625c9d0ce5c224",
     "packages": [
         {
             "name": "asbamboo/autoload",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/asbamboo/autoload.git",
-                "reference": "2086af558e3c8eeebeec73b0fe0a7b9b5d339786"
+                "reference": "22d858733c9ec1d52f3b823ea24dd94803ac63c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/asbamboo/autoload/zipball/2086af558e3c8eeebeec73b0fe0a7b9b5d339786",
-                "reference": "2086af558e3c8eeebeec73b0fe0a7b9b5d339786",
+                "url": "https://api.github.com/repos/asbamboo/autoload/zipball/22d858733c9ec1d52f3b823ea24dd94803ac63c2",
+                "reference": "22d858733c9ec1d52f3b823ea24dd94803ac63c2",
                 "shasum": ""
             },
             "require": {
@@ -45,7 +45,7 @@
                 "source": "https://github.com/asbamboo/autoload/tree/1.0.0",
                 "issues": "https://github.com/asbamboo/autoload/issues"
             },
-            "time": "2018-09-10T06:46:25+00:00"
+            "time": "2018-09-11T10:02:19+00:00"
         },
         {
             "name": "asbamboo/console",
@@ -129,12 +129,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/asbamboo/di.git",
-                "reference": "11099f5512dee169df765aed097a84d7c49a38f6"
+                "reference": "bc39f6a90d5abc9f1c715b8dfa427c2b744bd89e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/asbamboo/di/zipball/11099f5512dee169df765aed097a84d7c49a38f6",
-                "reference": "11099f5512dee169df765aed097a84d7c49a38f6",
+                "url": "https://api.github.com/repos/asbamboo/di/zipball/bc39f6a90d5abc9f1c715b8dfa427c2b744bd89e",
+                "reference": "bc39f6a90d5abc9f1c715b8dfa427c2b744bd89e",
                 "shasum": ""
             },
             "require": {
@@ -159,7 +159,7 @@
                 "source": "https://github.com/asbamboo/di/tree/1.0.0",
                 "issues": "https://github.com/asbamboo/di/issues"
             },
-            "time": "2018-09-10T03:24:55+00:00"
+            "time": "2018-09-13T13:56:46+00:00"
         },
         {
             "name": "asbamboo/event",
@@ -242,12 +242,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/asbamboo/http.git",
-                "reference": "4a66414e82f6ec16f9f1f9ec513deac0dcf44eb7"
+                "reference": "01e926fe09b691d376d451ffc16bc2a774f41262"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/asbamboo/http/zipball/4a66414e82f6ec16f9f1f9ec513deac0dcf44eb7",
-                "reference": "4a66414e82f6ec16f9f1f9ec513deac0dcf44eb7",
+                "url": "https://api.github.com/repos/asbamboo/http/zipball/01e926fe09b691d376d451ffc16bc2a774f41262",
+                "reference": "01e926fe09b691d376d451ffc16bc2a774f41262",
                 "shasum": ""
             },
             "require": {
@@ -272,7 +272,7 @@
                 "source": "https://github.com/asbamboo/http/tree/1.0.0",
                 "issues": "https://github.com/asbamboo/http/issues"
             },
-            "time": "2018-09-10T08:23:16+00:00"
+            "time": "2018-09-15T12:02:35+00:00"
         },
         {
             "name": "asbamboo/router",
@@ -280,12 +280,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/asbamboo/router.git",
-                "reference": "9b208fc85f0e003baa9540210ceaa82603b0a381"
+                "reference": "f09f2122fb288bf46a73b019b10fee2d1b72731b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/asbamboo/router/zipball/9b208fc85f0e003baa9540210ceaa82603b0a381",
-                "reference": "9b208fc85f0e003baa9540210ceaa82603b0a381",
+                "url": "https://api.github.com/repos/asbamboo/router/zipball/f09f2122fb288bf46a73b019b10fee2d1b72731b",
+                "reference": "f09f2122fb288bf46a73b019b10fee2d1b72731b",
                 "shasum": ""
             },
             "require": {
@@ -310,7 +310,7 @@
                 "source": "https://github.com/asbamboo/router/tree/1.0.0",
                 "issues": "https://github.com/asbamboo/router/issues"
             },
-            "time": "2018-09-10T07:46:23+00:00"
+            "time": "2018-09-13T13:59:29+00:00"
         },
         {
             "name": "asbamboo/security",
@@ -318,12 +318,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/asbamboo/security.git",
-                "reference": "ec6255f6ad4b8b313868d65bb10ffe97ff7a4f0a"
+                "reference": "491d228f341972a175b66f3b505d300b06a52a1c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/asbamboo/security/zipball/ec6255f6ad4b8b313868d65bb10ffe97ff7a4f0a",
-                "reference": "ec6255f6ad4b8b313868d65bb10ffe97ff7a4f0a",
+                "url": "https://api.github.com/repos/asbamboo/security/zipball/491d228f341972a175b66f3b505d300b06a52a1c",
+                "reference": "491d228f341972a175b66f3b505d300b06a52a1c",
                 "shasum": ""
             },
             "require": {
@@ -350,7 +350,44 @@
                 "source": "https://github.com/asbamboo/security/tree/1.0.0",
                 "issues": "https://github.com/asbamboo/security/issues"
             },
-            "time": "2018-09-11T03:23:14+00:00"
+            "time": "2018-09-12T09:13:53+00:00"
+        },
+        {
+            "name": "asbamboo/session",
+            "version": "1.0.0.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/asbamboo/session.git",
+                "reference": "662e46e09a79f045512e253e2e4e59871b3bb85e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/asbamboo/session/zipball/662e46e09a79f045512e253e2e4e59871b3bb85e",
+                "reference": "662e46e09a79f045512e253e2e4e59871b3bb85e",
+                "shasum": ""
+            },
+            "require": {
+                "asbamboo/autoload": "^1.0",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.2"
+            },
+            "type": "library",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "李春寅",
+                    "email": "licy2013@aliyun.com"
+                }
+            ],
+            "support": {
+                "source": "https://github.com/asbamboo/session/tree/master",
+                "issues": "https://github.com/asbamboo/session/issues"
+            },
+            "time": "2018-09-11T00:58:23+00:00"
         },
         {
             "name": "asbamboo/template",
@@ -358,12 +395,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/asbamboo/template.git",
-                "reference": "054e6895c57a3d99b1ec494294dd36397cb99c3a"
+                "reference": "2606a1f1991f06f308ddd55c0476cac81e2b7646"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/asbamboo/template/zipball/054e6895c57a3d99b1ec494294dd36397cb99c3a",
-                "reference": "054e6895c57a3d99b1ec494294dd36397cb99c3a",
+                "url": "https://api.github.com/repos/asbamboo/template/zipball/2606a1f1991f06f308ddd55c0476cac81e2b7646",
+                "reference": "2606a1f1991f06f308ddd55c0476cac81e2b7646",
                 "shasum": ""
             },
             "require": {
@@ -380,7 +417,7 @@
             ],
             "authors": [
                 {
-                    "name": "Lichunyin",
+                    "name": "李春寅",
                     "email": "licy2013@aliyun.com"
                 }
             ],
@@ -389,7 +426,7 @@
                 "source": "https://github.com/asbamboo/template/tree/1.0.0",
                 "issues": "https://github.com/asbamboo/template/issues"
             },
-            "time": "2018-09-10T11:10:28+00:00"
+            "time": "2018-09-11T10:09:03+00:00"
         },
         {
             "name": "doctrine/annotations",

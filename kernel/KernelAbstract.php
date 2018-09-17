@@ -1,29 +1,12 @@
 <?php
 namespace asbamboo\framework\kernel;
 
-use asbamboo\autoload\Autoload;
 use asbamboo\di\Container;
 use asbamboo\di\ContainerInterface;
-use asbamboo\framework\Constant;
 use asbamboo\di\ServiceMappingCollectionInterface;
 use asbamboo\di\ServiceMapping;
 use asbamboo\di\ServiceMappingCollection;
-use asbamboo\database\Factory;
-use asbamboo\framework\config\DbConfig;
-use asbamboo\console\Processor;
-use asbamboo\framework\config\RouterConfig;
-use asbamboo\router\RouteCollection;
-use asbamboo\router\Router;
-use asbamboo\framework\config\EventListenerConfig;
-use asbamboo\http\ServerRequest;
-use asbamboo\session\Session;
-use asbamboo\security\gurad\authorization\Authenticator;
-use asbamboo\security\user\provider\MemoryUserProvider;
-use asbamboo\security\user\token\UserToken;
-use asbamboo\security\user\login\BaseLogin;
-use asbamboo\security\user\login\BaseLogout;
-use asbamboo\framework\template\Template;
-use asbamboo\framework\exception\Handler;
+use asbamboo\framework\config\ConfigInterface;
 
 /**
  *
@@ -104,60 +87,34 @@ abstract class KernelAbstract implements KernelInterface
      */
     protected function initContainer() : ContainerInterface
     {
-        $ServiceMappings    = $this->registerConfigs();
-        $this->Container    = new Container($ServiceMappings);
+        $ServiceMappingCollection   = new ServiceMappingCollection();
+        $this->Container            = new Container($ServiceMappingCollection);
 
-        $this->Container->get(Constant::KERNEL_DB_CONFIG)->configure();
-        $this->Container->get(Constant::KERNEL_EVENT_LISTENER_CONFIG)->configure();
-        $this->Container->get(Constant::KERNEL_ROUTER_CONFIG)->configure();
-        $this->Container->set(Constant::KERNEL, $this);
+        $this->registerConfigs($ServiceMappingCollection);
+        $this->Container->set(KernelInterface::class, $this);
 
         return $this->Container;
     }
 
     /**
-     *  注册配置信息
      *
-     * @return ServiceMappingCollectionInterface
+     * @param ServiceMappingCollectionInterface $ServiceMappingCollection
      */
-    protected function registerConfigs() : ServiceMappingCollectionInterface
+    protected function registerConfigs(ServiceMappingCollectionInterface $ServiceMappingCollection) : void
     {
-        $ServiceMappings    = new ServiceMappingCollection();
-        $default_configs    = [
-            Constant::KERNEL_DB                     => ['class' => Factory::class],
-            Constant::KERNEL_DB_CONFIG              => ['class' => DbConfig::class],
-            Constant::KERNEL_CONSOLE                => ['class' => Processor::class],
-            Constant::KERNEL_REQUEST                => ['class' => ServerRequest::class],
-            Constant::KERNEL_SESSION                => ['class' => Session::class],
-            Constant::KERNEL_ROUTER_CONFIG          => ['class' => RouterConfig::class],
-            Constant::KERNEL_ROUTE_COLLECTION       => ['class' => RouteCollection::class],
-            Constant::KERNEL_ROUTER                 => ['class' => Router::class, 'init_params' => ['RouteCollection' => '@' . Constant::KERNEL_ROUTE_COLLECTION]],
-            Constant::KERNEL_USER_PROVIDER          => ['class' => MemoryUserProvider::class],
-            Constant::KERNEL_USER_TOKEN             => ['class' => UserToken::class, 'init_params' => ['Session' => '@' . Constant::KERNEL_SESSION]],
-            Constant::KERNEL_USER_LOGIN             => [
-                'class' => BaseLogin::class,
-                'init_params' => [
-                    'UserProvider'=>'@' . Constant::KERNEL_USER_PROVIDER,
-                    'UserToken'=>'@' . Constant::KERNEL_USER_TOKEN]
-            ],
-            Constant::KERNEL_USER_LOGOUT            => ['class' => BaseLogout::class, 'init_params' => ['UserToken'=>'@' . Constant::KERNEL_USER_TOKEN]],
-            Constant::KERNEL_GURAD_AUTHENTICATOR    => ['class' => Authenticator::class],
-            Constant::KERNEL_TEMPLATE               => [
-                'class' => Template::class,
-                'init_params' => ['template_dir' => $this->getProjectDir() . DIRECTORY_SEPARATOR . 'view']
-            ],
-            Constant::KERNEL_EVENT_LISTENER_CONFIG  => ['class' => EventListenerConfig::class],
-            Constant::KERNEL_EXCEPTION_HANDLER      => ['class' => Handler::class],
-        ];
-        $custom_configs     = include $this->getConfigPath();
-        $configs            = array_replace_recursive($default_configs, $custom_configs);
+        $configs    = include $this->getConfigPath();
         foreach($configs AS $key => $config){
             if(ctype_digit((string) $key) == false && !isset($config['id'])){
                 $config['id']   = $key;
             }
-            $ServiceMappings->add(new ServiceMapping($config));
+            if(!isset($config['class']) && class_exists($key)){
+                $config['class']    = $key;
+            }
+            $ServiceMappingCollection->add(new ServiceMapping($config));
+            if(in_array(ConfigInterface::class, class_implements($config['class']))){
+                $this->Container->get($key)->configure();
+            }
         }
-        return $ServiceMappings;
     }
 
     /**
