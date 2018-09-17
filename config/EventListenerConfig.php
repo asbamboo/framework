@@ -19,7 +19,7 @@ use asbamboo\event\EventListener;
  * @author 李春寅 <licy2013@aliyun.com>
  * @since 2018年9月3日
  */
-class EventListenerConfig
+class EventListenerConfig implements ConfigInterface
 {
     use ContainerAwareTrait;
 

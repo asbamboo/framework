@@ -24,7 +24,7 @@ class TemplateTest extends TestCase
     public function testAuthorizationExtension()
     {
         $TestKernel     = new TestKernel(true);
-        $Template       = $TestKernel->getContainer()->get(Constant::KERNEL_TEMPLATE);
+        $Template       = $TestKernel->getContainer()->get('kernel.template');
         $Extension      = $Template->getExtension(AuthorizationExtension::class);
         $this->assertTrue($Extension->hasRoles(Role::ANONYMOUS));
     }
@@ -32,7 +32,7 @@ class TemplateTest extends TestCase
     public function testGlobalExtension()
     {
         $TestKernel     = new TestKernel(true);
-        $Template       = $TestKernel->getContainer()->get(Constant::KERNEL_TEMPLATE);
+        $Template       = $TestKernel->getContainer()->get('kernel.template');
         $Extension      = $Template->getExtension(GlobalExtension::class);
         $this->assertInstanceOf(UserInterface::class, $Extension->user());
         $this->assertInstanceOf(ServerRequestInterface::class, $Extension->request());
@@ -42,7 +42,7 @@ class TemplateTest extends TestCase
     public function testRouterExtension()
     {
         $TestKernel     = new TestKernel(true);
-        $Template       = $TestKernel->getContainer()->get(Constant::KERNEL_TEMPLATE);
+        $Template       = $TestKernel->getContainer()->get('kernel.template');
         $Extension      = $Template->getExtension(RouterExtension::class);
         $this->assertEquals('/', $Extension->path('home'));
         $this->assertFalse($Extension->isCurrent('home'));
@@ -51,7 +51,7 @@ class TemplateTest extends TestCase
     public function testUserCustomExtension()
     {
         $TestKernel     = new TestKernel(true);
-        $Template       = $TestKernel->getContainer()->get(Constant::KERNEL_TEMPLATE);
+        $Template       = $TestKernel->getContainer()->get('kernel.template');
         $this->assertArrayHasKey(TemplateExtensions::class, $Template->getExtensions());
     }
 }

@@ -4,7 +4,6 @@ namespace asbamboo\framework\template\extension;
 use asbamboo\framework\template\Template;
 use asbamboo\template\Extension;
 use asbamboo\template\Functions;
-use asbamboo\framework\Constant;
 use asbamboo\security\user\token\UserTokenInterface;
 
 /**
@@ -53,7 +52,7 @@ class AuthorizationExtension extends Extension
          *
          * @var UserTokenInterface $UserToken
          */
-        $UserToken      = $this->Template->getContainer()->get(Constant::KERNEL_USER_TOKEN);
+        $UserToken      = $this->Template->getContainer()->get(UserTokenInterface::class);
         $user_roles     = $UserToken->getUser()->getRoles();
         $diffed_roles   = array_diff($user_roles, $roles);
         return count($user_roles) > count($diffed_roles);

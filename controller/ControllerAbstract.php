@@ -2,15 +2,14 @@
 namespace asbamboo\framework\controller;
 
 use asbamboo\di\ContainerAwareTrait;
-use asbamboo\template\Template;
 use asbamboo\http\Response;
 use asbamboo\http\Stream;
-use asbamboo\framework\Constant;
-use asbamboo\router\RouteCollection;
 use asbamboo\http\ResponseInterface;
 use asbamboo\http\RedirectResponse;
-use asbamboo\router\Router;
 use asbamboo\framework\exception\NotFindTemplateException;
+use asbamboo\router\RouterInterface;
+use asbamboo\template\TemplateInterface;
+use asbamboo\router\RouteCollectionInterface;
 
 /**
  * 控制器抽象类
@@ -35,18 +34,18 @@ abstract class ControllerAbstract implements ControllerInterface
 
         /**
          *
-         * @var Template $Template
+         * @var TemplateInterface $Template
          */
-        $Template           = $this->Container->get(Constant::KERNEL_TEMPLATE);
+        $Template           = $this->Container->get(TemplateInterface::class);
 
         /**
          * 默认路径
          *  - 等于项目根目录 + /view/ + （controller命名空间下命名路径，单词之间改用‘-’连接）+ 后缀名 'html.tpl'
          *
-         * @var RouteCollection $RouteCollection
+         * @var RouteCollectionInterface $RouteCollection
          */
         if($path === null){
-            $RouteCollection    = $this->Container->get(Constant::KERNEL_ROUTE_COLLECTION);
+            $RouteCollection    = $this->Container->get(RouterInterface::class)->getRouteCollection();
             $Route              = $RouteCollection->getMatchedRoute();
             $callback           = $Route->getCallback();
             $view_path_data     = preg_replace('@.*controller@u', '', get_class($callback[0]));
@@ -91,9 +90,9 @@ abstract class ControllerAbstract implements ControllerInterface
     {
         /**
          *
-         * @var Router $Router
+         * @var RouterInterface $Router
          */
-        $Router     = $this->Container->get(Constant::KERNEL_ROUTER);
+        $Router     = $this->Container->get(RouterInterface::class);
         $target_uri = $Router->generateUrl($route_id, $route_params);
         return new RedirectResponse($target_uri);
     }

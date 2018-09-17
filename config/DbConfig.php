@@ -2,13 +2,12 @@
 namespace asbamboo\framework\config;
 
 use asbamboo\di\ContainerAwareTrait;
-use asbamboo\framework\Constant;
 use asbamboo\database\Connection;
-use asbamboo\database\Factory;
+use asbamboo\database\FactoryInterface;
 
 /**
  * 数据库配置
- *  - 数据库配置完成后通过$this->Container->get(Constant::KERNEL_DB)->getManager('connection id')来获取db manager;
+ *  - 数据库配置完成后通过$this->Container->get(FactoryInterface::class)->getManager('connection id')来获取db manager;
  *  - 如果只有一个数据库，可以通过这个方式配置: 此时connection_id = default。
  *      [
  *          'connection'    => [
@@ -46,7 +45,7 @@ use asbamboo\database\Factory;
  * @author 李春寅 <licy2013@aliyun.com>
  * @since 2018年7月5日
  */
-class DbConfig
+class DbConfig implements ConfigInterface
 {
     use ContainerAwareTrait;
 
@@ -71,9 +70,9 @@ class DbConfig
     public function configure() : void
     {
         /**
-         * @var Factory $Factory
+         * @var FactoryInterface $Factory
          */
-        $Factory        = $this->Container->get(Constant::KERNEL_DB);
+        $Factory        = $this->Container->get(FactoryInterface::class);
 
         /**
          * 如果只配置了一个数据库，增加数组纬度。

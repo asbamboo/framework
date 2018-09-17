@@ -2,7 +2,6 @@
 namespace asbamboo\framework\exception;
 
 use asbamboo\di\ContainerAwareTrait;
-use asbamboo\framework\Constant;
 use asbamboo\http\Response;
 use asbamboo\http\Stream;
 use asbamboo\template\TemplateInterface;
@@ -45,7 +44,7 @@ class Handler implements HandlerInterface
          * @var TemplateInterface $Template
          */
         $Exception                  = $this->Exception;
-        $Template                   = $this->Container->get(Constant::KERNEL_TEMPLATE);
+        $Template                   = $this->Container->get(TemplateInterface::class);
         $code                       = $this->Exception->getCode()?:'500';
         $is_custom_exception_view   = false;
         $view_content               = '';

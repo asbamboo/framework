@@ -8,6 +8,7 @@ use asbamboo\router\RouteCollection;
 use asbamboo\di\Container;
 use asbamboo\framework\config\RouterConfig;
 use asbamboo\di\ServiceMapping;
+use asbamboo\router\RouterInterface;
 
 class RouterConfigTest extends TestCase
 {
@@ -15,7 +16,7 @@ class RouterConfigTest extends TestCase
     {
         $ServiceMappings    = new ServiceMappingCollection();
         $Container          = new Container($ServiceMappings);
-        $ServiceMappings->add(new ServiceMapping(['id' => Constant::KERNEL_ROUTE_COLLECTION, 'class' => RouteCollection::class]));
+//         $ServiceMappings->add(new ServiceMapping(['id' => 'kernel.route.collection', 'class' => RouteCollection::class]));
 
         $RouterConfig       = new RouterConfig();
         $RouterConfig->setContainer($Container);
@@ -28,9 +29,9 @@ class RouterConfigTest extends TestCase
         $RouterConfig->setContainer($Container);
         $RouterConfig->configure();
 
-        $this->assertTrue($Container->get(Constant::KERNEL_ROUTE_COLLECTION)->has('test1'));
-        $this->assertTrue($Container->get(Constant::KERNEL_ROUTE_COLLECTION)->has('test2'));
-        $this->assertEquals(2, $Container->get(Constant::KERNEL_ROUTE_COLLECTION)->count());
+        $this->assertTrue($Container->get(RouterInterface::class)->getRouteCollection()->has('test1'));
+        $this->assertTrue($Container->get(RouterInterface::class)->getRouteCollection()->has('test2'));
+        $this->assertEquals(2, $Container->get(RouterInterface::class)->getRouteCollection()->count());
     }
 }
 

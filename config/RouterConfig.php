@@ -2,9 +2,9 @@
 namespace asbamboo\framework\config;
 
 use asbamboo\di\ContainerAwareTrait;
-use asbamboo\framework\Constant;
 use asbamboo\router\Route;
 use asbamboo\router\RouteCollectionInterface;
+use asbamboo\router\RouterInterface;
 
 /**
  *
@@ -23,7 +23,7 @@ use asbamboo\router\RouteCollectionInterface;
  * @author 李春寅 <licy2013@aliyun.com>
  * @since 2018年7月5日
  */
-class RouterConfig
+class RouterConfig implements ConfigInterface
 {
     use ContainerAwareTrait;
 
@@ -48,10 +48,11 @@ class RouterConfig
     public function configure() : void
     {
         /**
-         *
+         * @var RouterInterface $Router
          * @var RouteCollectionInterface $RouteCollection
          */
-        $RouteCollection = $this->Container->get(Constant::KERNEL_ROUTE_COLLECTION);
+        $Router             = $this->Container->get(RouterInterface::class);
+        $RouteCollection    = $Router->getRouteCollection();
 
         foreach($this->configs AS $key => $config){
             if(is_string( $config['callback'] )){

@@ -3,11 +3,8 @@ namespace asbamboo\framework\template\extension;
 
 use asbamboo\template\Extension;
 use asbamboo\template\Functions;
-use asbamboo\framework\Constant;
 use asbamboo\router\RouterInterface;
 use asbamboo\framework\template\Template;
-use asbamboo\http\ServerRequestInterface;
-use asbamboo\router\Route;
 use asbamboo\router\RouteCollectionInterface;
 
 /**
@@ -58,7 +55,7 @@ class RouterExtension extends Extension
          *
          * @var RouterInterface $Router
          */
-        $Router = $this->Template->getContainer()->get(Constant::KERNEL_ROUTER);
+        $Router = $this->Template->getContainer()->get(RouterInterface::class);
         return $Router->generateUrl($route_id, $params);
     }
 
@@ -74,7 +71,7 @@ class RouterExtension extends Extension
          *
          * @var RouteCollectionInterface $RouteCollection
          */
-        $RouteCollection    = $this->Template->getContainer()->get(Constant::KERNEL_ROUTE_COLLECTION);
+        $RouteCollection    = $this->Template->getContainer()->get(RouterInterface::class)->getRouteCollection();
         $Route              = $RouteCollection->getMatchedRoute();
         return $Route && $Route->getId() == $route_id;
     }
