@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "491e2becadc895d5c7625c9d0ce5c224",
@@ -129,12 +129,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/asbamboo/di.git",
-                "reference": "bc39f6a90d5abc9f1c715b8dfa427c2b744bd89e"
+                "reference": "71b6584018a693c499416581cf1e83682c929b5b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/asbamboo/di/zipball/bc39f6a90d5abc9f1c715b8dfa427c2b744bd89e",
-                "reference": "bc39f6a90d5abc9f1c715b8dfa427c2b744bd89e",
+                "url": "https://api.github.com/repos/asbamboo/di/zipball/71b6584018a693c499416581cf1e83682c929b5b",
+                "reference": "71b6584018a693c499416581cf1e83682c929b5b",
                 "shasum": ""
             },
             "require": {
@@ -159,7 +159,7 @@
                 "source": "https://github.com/asbamboo/di/tree/1.0.0",
                 "issues": "https://github.com/asbamboo/di/issues"
             },
-            "time": "2018-09-13T13:56:46+00:00"
+            "time": "2018-09-17T06:58:04+00:00"
         },
         {
             "name": "asbamboo/event",
@@ -318,12 +318,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/asbamboo/security.git",
-                "reference": "491d228f341972a175b66f3b505d300b06a52a1c"
+                "reference": "b4e23b9d44bddbbcaae7c58c6eb7974b3ee3ebff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/asbamboo/security/zipball/491d228f341972a175b66f3b505d300b06a52a1c",
-                "reference": "491d228f341972a175b66f3b505d300b06a52a1c",
+                "url": "https://api.github.com/repos/asbamboo/security/zipball/b4e23b9d44bddbbcaae7c58c6eb7974b3ee3ebff",
+                "reference": "b4e23b9d44bddbbcaae7c58c6eb7974b3ee3ebff",
                 "shasum": ""
             },
             "require": {
@@ -350,7 +350,7 @@
                 "source": "https://github.com/asbamboo/security/tree/1.0.0",
                 "issues": "https://github.com/asbamboo/security/issues"
             },
-            "time": "2018-09-12T09:13:53+00:00"
+            "time": "2018-09-17T07:05:36+00:00"
         },
         {
             "name": "asbamboo/session",

@@ -102,7 +102,8 @@ abstract class KernelAbstract implements KernelInterface
      */
     protected function registerConfigs(ServiceMappingCollectionInterface $ServiceMappingCollection) : void
     {
-        $configs    = include $this->getConfigPath();
+        $configs            = include $this->getConfigPath();
+        $configure_services = [];
         foreach($configs AS $key => $config){
             if(ctype_digit((string) $key) == false && !isset($config['id'])){
                 $config['id']   = $key;
@@ -112,8 +113,11 @@ abstract class KernelAbstract implements KernelInterface
             }
             $ServiceMappingCollection->add(new ServiceMapping($config));
             if(in_array(ConfigInterface::class, class_implements($config['class']))){
-                $this->Container->get($key)->configure();
+                $configure_services[] = $config['id'];
             }
+        }
+        foreach($configure_services AS $configure_service){
+            $this->Container->get($configure_service)->configure();
         }
     }
 
