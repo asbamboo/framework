@@ -1,4 +1,4 @@
-<?php
+qua<?php
 namespace asbamboo\framework\template\extension;
 
 use asbamboo\template\Extension;
@@ -60,9 +60,8 @@ class GlobalExtension extends Extension implements ExtensionGlobalsInterface
     }
 
     /**
-     * 当前请求
      *
-     * @return \asbamboo\security\user\UserInterface
+     * @return \asbamboo\http\ServerRequestInterface
      */
     public function request()
     {
