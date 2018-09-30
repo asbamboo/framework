@@ -1,4 +1,4 @@
-qua<?php
+<?php
 namespace asbamboo\framework\template\extension;
 
 use asbamboo\template\Extension;
