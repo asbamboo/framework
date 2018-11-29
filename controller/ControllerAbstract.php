@@ -10,6 +10,7 @@ use asbamboo\framework\exception\NotFindTemplateException;
 use asbamboo\router\RouterInterface;
 use asbamboo\template\TemplateInterface;
 use asbamboo\router\RouteCollectionInterface;
+use asbamboo\http\JsonResponse;
 
 /**
  * 控制器抽象类
@@ -77,6 +78,49 @@ abstract class ControllerAbstract implements ControllerInterface
         $Stream     = new Stream('php://temp', 'w+b');
         $Stream->write($content);
         return new Response($Stream);
+    }
+
+    /**
+     * 一般用于ajax请求时返回json响应
+     *
+     * @param array $data
+     * @return ResponseInterface
+     */
+    public function json(array $data) : ResponseInterface
+    {
+        return new JsonResponse($data);
+    }
+
+    /**
+     * 一般用于ajax请求时返回成功的json响应
+     *
+     * @param array $data
+     * @param string $status
+     * @param string $message
+     * @return ResponseInterface
+     */
+    public function successJson(string $message = '操作成功', array $data = [], string $status = 'success') : ResponseInterface
+    {
+        return $this->json([
+            'status'    => $status,
+            'message'   => $message,
+            'data'      => $data,
+        ]);
+    }
+
+    /**
+     * 一般用于ajax请求时返回失败的json响应
+     *
+     * @param string $status
+     * @param string $message
+     * @return ResponseInterface
+     */
+    public function failedJson(string $message = '操作失败', string $status = 'failed') : ResponseInterface
+    {
+        return $this->json([
+            'status'    => $status,
+            'message'   => $message,
+        ]);
     }
 
     /**
