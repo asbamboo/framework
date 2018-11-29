@@ -3,10 +3,11 @@ namespace asbamboo\framework\kernel;
 
 use asbamboo\router\RouterInterface;
 use asbamboo\http\ServerRequestInterface;
-use asbamboo\http\ResponseInterface;
 use asbamboo\security\gurad\authorization\AuthenticatorInterface;
 use asbamboo\security\user\token\UserTokenInterface;
 use asbamboo\framework\exception\HandlerInterface;
+use asbamboo\event\EventScheduler;
+use asbamboo\framework\Event;
 
 /**
  * 通过http请求，访问程序是，从这个类的实例开始
@@ -28,7 +29,7 @@ class Http implements ApplicationInterface
              *
              * @var RouterInterface $Router
              * @var ServerRequestInterface $Request
-             * @var ResponseInterface $Response
+             * @var \asbamboo\http\ResponseInterface $Response
              * @var AuthenticatorInterface $Authenticator
              * @var UserTokenInterface $UserToken
              */
@@ -36,6 +37,7 @@ class Http implements ApplicationInterface
             $Router         = $Kernel->getContainer()->get(RouterInterface::class);
             $Authenticator  = $Kernel->getContainer()->get(AuthenticatorInterface::class);
             $UserToken      = $Kernel->getContainer()->get(UserTokenInterface::class);
+            EventScheduler::instance()->trigger(Event::KERNEL_HTTP_REQUEST, [$this, $Kernel]);
             $Authenticator->validate($UserToken->getUser(), $Request);
             $Response       = $Router->matchRequest($Request);
             $Response->send();
