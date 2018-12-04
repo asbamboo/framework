@@ -49,7 +49,7 @@ class Template extends BaseTemplate
         }
 
         foreach((array)$extensions AS $extension){
-            $extension  = is_object($extension) ? $extension : new $extension;
+            $extension  = is_object($extension) ? $extension : new $extension($this);
             $this->addExtension($extension);
         }
     }
