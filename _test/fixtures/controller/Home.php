@@ -7,12 +7,14 @@ use asbamboo\framework\controller\ControllerAbstract;
 use asbamboo\framework\Constant;
 use asbamboo\framework\_test\fixtures\model\product\ProductEntity;
 use asbamboo\database\Factory;
+use asbamboo\database\FactoryInterface;
+use asbamboo\http\ServerRequestInterface;
 
 class Home extends ControllerAbstract
 {
-    public function index($p1, $p2)
+    public function index(ServerRequestInterface $Request, $p1, $p2)
     {
-
+//         var_dump($Request->getPostParams());
         $this->createProduct();
         $this->searchProduct();
         return $this->view([
@@ -30,7 +32,7 @@ class Home extends ControllerAbstract
          *
          * @var Factory $Db
          */
-        $Db         = $this->Container->get('kernel.db.factory');
+        $Db         = $this->Container->get(FactoryInterface::class);
         $conn       = ['default','a','b'];
         $i          = array_rand($conn, 1);
         $Manager    = $Db->getManager($conn[$i]);
@@ -48,7 +50,7 @@ class Home extends ControllerAbstract
          *
          * @var Factory $Db
          */
-        $Db         = $this->Container->get('kernel.db.factory');
+        $Db         = $this->Container->get(FactoryInterface::class);
         $conn       = ['default','a','b'];
         $i          = array_rand($conn, 1);
         $Manager    = $Db->getManager($conn[$i]);

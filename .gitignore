@@ -1,2 +1,6 @@
 /vendor/
 /_test/fixtures/cache/
+.buildpath
+.project
+.settings/
+

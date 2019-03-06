@@ -3,7 +3,6 @@ namespace asbamboo\framework\config;
 
 use asbamboo\di\ContainerAwareTrait;
 use asbamboo\router\Route;
-use asbamboo\router\RouteCollectionInterface;
 use asbamboo\router\RouterInterface;
 
 /**
