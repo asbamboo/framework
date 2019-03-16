@@ -6,6 +6,7 @@ use asbamboo\template\Functions;
 use asbamboo\router\RouterInterface;
 use asbamboo\framework\template\Template;
 use asbamboo\router\RouteCollectionInterface;
+use asbamboo\framework\Constant;
 
 /**
  * template 模板中使用的扩展[路由相关]
@@ -72,7 +73,6 @@ class RouterExtension extends Extension
          * @var RouteCollectionInterface $RouteCollection
          */
         $RouteCollection    = $this->Template->getContainer()->get(RouterInterface::class)->getRouteCollection();
-        $Route              = $RouteCollection->getMatchedRoute();
-        return $Route && $Route->getId() == $route_id;
+        return !empty($RouteCollection->get($route_id)->getOptions(Constant::IS_CURRENT_ROUTE));
     }
 }

@@ -25,8 +25,9 @@ class HttpTest extends TestCase
         ob_end_clean();
 //         echo $data;
         $this->assertNotEmpty($data);
+        $this->assertContains('test kernel', $data);
         $_GET               = $get;
-
+//         exit;
     }
 
     public function testRun2()
@@ -41,8 +42,7 @@ class HttpTest extends TestCase
         $TestKernel     = (new Http())->run($TestKernel);
         $data           = ob_get_contents();
         ob_end_clean();
-//         echo $data;
-        $this->assertContains('test',$data);
+        $this->assertContains('test kernel',$data);
         $_GET               = $get;
     }
 

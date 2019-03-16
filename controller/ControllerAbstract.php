@@ -46,8 +46,9 @@ abstract class ControllerAbstract implements ControllerInterface
          * @var RouteCollectionInterface $RouteCollection
          */
         if($path === null){
-            $RouteCollection    = $this->Container->get(RouterInterface::class)->getRouteCollection();
-            $Route              = $RouteCollection->getMatchedRoute();
+            $Router             = $this->Container->get(RouterInterface::class);
+            $current_route_id   = $Router->getCurrentMatchedRouteId();
+            $Route              = $Router->getRouteCollection()->get($current_route_id);
             $callback           = $Route->getCallback();
             $view_path_data     = preg_replace('@.*controller@u', '', get_class($callback[0]));
             $view_path_data     = explode('\\', $view_path_data);
