@@ -46,6 +46,7 @@ class Http implements ApplicationInterface
             $Route          = $this->matchCurrentRoute($Kernel);
             $Response       = $Router->call($Route, $Request);
             $Response->send();
+            EventScheduler::instance()->trigger(Event::KERNEL_HTTP_RESPONSE, [$this, $Kernel, $Response]);
         }catch(\Throwable $e){
             $Kernel->getContainer()->get(HandlerInterface::class)->setException($e)->print();
         }
