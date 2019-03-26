@@ -16,7 +16,8 @@ use asbamboo\database\FactoryInterface;
  *          ],'metadata'    => [
  *              'path'      => dirname(__DIR__) . '/model',
  *              'type'      => 'annotation',
- *          ],'is_dev'      => true,
+ *          ],'logger'      => 'logger_service_id',
+ *          'is_dev'        => true,
  *      ]
  *  - 如果是多个数据库，可以通过这个方式配置 db1\db2\...为connection id
  *      [
@@ -96,6 +97,10 @@ class DbConfig implements ConfigInterface
                 continue;
             }
             $Connection = Connection::create($config['connection'], $config['metadata']['path'], $config['metadata']['type'] ?? Connection::MATADATA_ANNOTATION, $config['is_dev'] ?? false);
+            if(!empty($config['logger'])){
+                $SqlLogger  = $this->Container->get($config['logger']);
+                $Connection->getConfiguration()->setSQLLogger($SqlLogger);
+            }
             $Factory->addConnection($Connection, $id);
         }
     }

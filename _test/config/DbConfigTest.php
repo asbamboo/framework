@@ -9,6 +9,7 @@ use asbamboo\di\ServiceMappingCollection;
 use asbamboo\framework\Constant;
 use asbamboo\database\Factory;
 use asbamboo\database\ManagerInterface;
+use Doctrine\DBAL\Logging\EchoSQLLogger;
 
 /**
  *
@@ -37,6 +38,7 @@ class DbConfigTest extends TestCase
                 'path'      => dirname(__DIR__) . '/model',
                 'type'      => 'annotation',
             ],'is_dev'      => true,
+            'logger'        => EchoSQLLogger::class,
         ]);
         $DbConfig->setContainer($Container);
         $DbConfig->configure();
