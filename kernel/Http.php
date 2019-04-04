@@ -48,6 +48,7 @@ class Http implements ApplicationInterface
             $Response->send();
             EventScheduler::instance()->trigger(Event::KERNEL_HTTP_RESPONSE, [$this, $Kernel, $Response]);
         }catch(\Throwable $e){
+            EventScheduler::instance()->trigger(Event::KERNEL_HTTP_EXCEPTION, [$this, $e]);
             $Kernel->getContainer()->get(HandlerInterface::class)->setException($e)->print();
         }
     }
