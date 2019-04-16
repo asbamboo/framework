@@ -9,9 +9,11 @@ namespace asbamboo\framework;
  */
 class Event
 {
-    const KERNEL_CONSOLE_PRE_EXEC = 'kernel.console.pre.exec';    // asbamboo\framework\kernel\Console::exec()执行之前触发
+    const KERNEL_CONSOLE_PRE_EXEC   = 'kernel.console.pre.exec';    // asbamboo\framework\kernel\Console::exec()执行之前触发
 
-    const KERNEL_HTTP_REQUEST     = 'kernel.http.request'; //asbamboo\framework\kernel\http::run中match request之前触发
+    const KERNEL_HTTP_REQUEST       = 'kernel.http.request'; //asbamboo\framework\kernel\http::run中match request之前触发
 
-    const KERNEL_HTTP_RESPONSE    = 'kernel.http.response'; //asbamboo\framework\kernel\http::run中response send之后触发
+    const KERNEL_HTTP_RESPONSE      = 'kernel.http.response'; //asbamboo\framework\kernel\http::run中response send之后触发
+
+    const KERNEL_HTTP_EXCEPTION     = 'kernel.http.exception'; //asbamboo\framework\kernel\http::run中catch到异常时触发
 }
