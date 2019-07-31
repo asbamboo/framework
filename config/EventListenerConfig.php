@@ -45,10 +45,12 @@ class EventListenerConfig implements ConfigInterface
     {
         foreach($this->configs AS $config)
         {
-            foreach($config['construct_params'] AS $key => $param){
-                if(is_string($param) && strncmp($param, '@', 1) === 0){
-                    $server_id                          = substr($param, 1);
-                    $config['construct_params'][$key]   = $this->Container instanceof $server_id ? $this->Container : $this->Container->get($server_id);
+            if(isset($config['construct_params']) && is_array($config['construct_params'])){
+                foreach($config['construct_params'] AS $key => $param){
+                    if(is_string($param) && strncmp($param, '@', 1) === 0){
+                        $server_id                          = substr($param, 1);
+                        $config['construct_params'][$key]   = $this->Container instanceof $server_id ? $this->Container : $this->Container->get($server_id);
+                    }
                 }
             }
             EventListener::instance()->set($config['name'], $config['class'], $config['method'], $config['construct_params'] ?? [], $config['priority'] ?? null);
